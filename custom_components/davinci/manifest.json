@@ -1,0 +1,13 @@
+{
+  "domain": "davinci",
+  "name": "DaVinci",
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/Lolig4/homeassistant-dev/",
+  "codeowners": ["@Lolig4"],
+  "iot_class": "cloud_polling",
+  "requirements": ["aiohttp"],
+  "ssdp": [],
+  "version": "0.1.0",
+  "zeroconf": []
+}
