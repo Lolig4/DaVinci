@@ -11,7 +11,8 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 
-from .const import DOMAIN, HOST, PASS, USER
+from .const import BLOCK_GROUP, DOMAIN, HOST, PASS, USER
+from .options_flow import DaVinciOptionsFlowHandler
 from .sensor import async_get_davinci_data
 
 _LOGGER = logging.getLogger(__name__)
@@ -50,5 +51,11 @@ class DaVinciConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required(HOST): str,
                 vol.Required(USER): str,
                 vol.Required(PASS): str,
+                vol.Optional(BLOCK_GROUP, default=0): vol.In({0: "All", 1: "Group 1", 2: "Group 2"})
             }),
         )
+
+    @staticmethod
+    def async_get_options_flow(config_entry):
+        """Get the options flow for this handler."""
+        return DaVinciOptionsFlowHandler(config_entry)

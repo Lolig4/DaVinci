@@ -15,7 +15,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
 
-from .const import ATTRIBUTION, HOST, PASS, USER
+from .const import ATTRIBUTION, BLOCK_GROUP, HOST, PASS, USER
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -147,6 +147,7 @@ class TimetableData(SensorEntity):
         self._hostname = config_entry.data[HOST]
         self._username = config_entry.data[USER]
         self._password = config_entry.data[PASS]
+        self._block_group = config_entry.data[BLOCK_GROUP]
 
         # Set entity properties
         self._attr_name = "DaVinci Timetable"
@@ -162,7 +163,7 @@ class TimetableData(SensorEntity):
         """Fetch new timetable data."""
         try:
             data = await async_get_davinci_data(self._hostname, self._username, self._password)
-            timetable = get_current_timetable(data, 2)
+            timetable = get_current_timetable(data, self._block_group)
 
             # Reorganize data by weekdays
             weekday_data = {}
